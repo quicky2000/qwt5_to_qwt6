@@ -1,0 +1,7 @@
+Makefile
+qwt5
+# use glob syntax.
+syntax: glob
+.moc/*
+.obj/*
+*~
