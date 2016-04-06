@@ -14,22 +14,26 @@
       You should have received a copy of the GNU General Public License
       along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-#include "main_window.h"
-#include "slider_widget.h"
-#include "wheel_widget.h"
+#ifndef WHEEL_WIDGET_H
+#define WHEEL_WIDGET_H
+
+#include <QWidget>
+
+class QwtWheel;
+class QLCDNumber;
 
 namespace qwt5_to_qwt6
 {
-  //----------------------------------------------------------------------------
-  main_window::main_window(void):
-    m_tab_widget(nullptr)
+  class wheel_widget: public QWidget
   {
-    m_tab_widget = new QTabWidget(this);
-    m_tab_widget->addTab( new slider_widget(this) , "Slider" );
-    m_tab_widget->addTab( new wheel_widget(this), "Wheel" );
-
-    setCentralWidget(m_tab_widget);
-  }
+  Q_OBJECT
+  public:
+    wheel_widget(QWidget * parent = nullptr);
+  private:
+    QwtWheel * m_wheel;
+    QLCDNumber * m_current_seq_number;
+  };
 
 }
+#endif // WHEEL_WIDGET_H
 //EOF

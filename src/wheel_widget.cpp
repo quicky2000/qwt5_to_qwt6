@@ -14,21 +14,42 @@
       You should have received a copy of the GNU General Public License
       along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-#include "main_window.h"
-#include "slider_widget.h"
 #include "wheel_widget.h"
+#include <qwt_wheel.h>
+#include <QLCDNumber>
+#include <QVBoxLayout>
 
 namespace qwt5_to_qwt6
 {
   //----------------------------------------------------------------------------
-  main_window::main_window(void):
-    m_tab_widget(nullptr)
+  wheel_widget::wheel_widget(QWidget * parent):
+    m_wheel(nullptr),
+    m_current_seq_number(nullptr)
   {
-    m_tab_widget = new QTabWidget(this);
-    m_tab_widget->addTab( new slider_widget(this) , "Slider" );
-    m_tab_widget->addTab( new wheel_widget(this), "Wheel" );
+    QVBoxLayout * l_layout = new QVBoxLayout(this);
+    m_current_seq_number = new QLCDNumber();
+    m_current_seq_number->setDigitCount(9);
+    l_layout->addWidget(m_current_seq_number);
 
-    setCentralWidget(m_tab_widget);
+    m_wheel = new QwtWheel(this);
+    m_wheel->setOrientation(Qt::Vertical);
+    m_wheel->setWheelWidth(14);
+
+#if QWT_VERSION >= 0x060000
+    m_wheel->setRange(1.6,5.0);
+    m_wheel->setSingleStep(0.001);
+    // Use 1000 value for multiplicator so that PageStep has size 1
+    m_wheel->setPageStepCount(1000);
+#else
+    m_wheel->setRange(1.6, 5.0, 0.001, 1);
+#endif // QWT_VERSION >= 0x060000
+
+    connect(m_wheel, SIGNAL(valueChanged(double)), m_current_seq_number , SLOT(display(double)));
+
+    l_layout->addWidget(m_wheel);
+
+    m_wheel->setValue(3.2);
+
   }
 
 }

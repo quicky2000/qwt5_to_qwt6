@@ -18,19 +18,17 @@
 #define MAIN_WINDOW_H
 
 #include <QMainWindow>
-
+#include <QTabWidget>
 
 namespace qwt5_to_qwt6
 {
-  class slider_widget;
-
   class main_window: public QMainWindow
   {
   Q_OBJECT
   public:
     main_window(void);
   private:
-    slider_widget * m_slider_widget;
+    QTabWidget * m_tab_widget;
   };
 
 }
