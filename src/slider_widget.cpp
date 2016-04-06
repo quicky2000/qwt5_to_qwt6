@@ -70,7 +70,6 @@ namespace qwt5_to_qwt6
     m_time_slider->setRange(l_min,l_max, 1.0/10000.0, 1000);
 #endif // QWT_VERSION >= 0x060000
 
-    m_time_slider->setValue(500.0);
     m_time_slider->setTracking(true);
     m_time_slider->setBorderWidth(4);
     m_time_slider->setMinimumWidth(200);
@@ -82,6 +81,8 @@ namespace qwt5_to_qwt6
     connect(m_time_slider, SIGNAL(valueChanged(double)), m_current_seq_number , SLOT(display(double)));
 
     l_layout->addWidget(m_time_slider);
+
+    m_time_slider->setValue(500.0);
   }
 
 }
