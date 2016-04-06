@@ -1,7 +1,8 @@
 Makefile
 qwt5
+qwt6
 # use glob syntax.
 syntax: glob
-.moc/*
-.obj/*
+.moc*
+.obj*
 *~

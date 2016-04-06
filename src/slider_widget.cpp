@@ -31,11 +31,44 @@ namespace qwt5_to_qwt6
     m_current_seq_number->setDigitCount(9);
     l_layout->addWidget(m_current_seq_number);
 
-    m_time_slider = new QwtSlider(this, Qt::Horizontal, QwtSlider::NoScale, QwtSlider::BgBoth);
+    double l_min = 0.0;
+    double l_max = 10000.0;
+#if QWT_VERSION >= 0x060000
+  m_time_slider = new QwtSlider(Qt::Horizontal,this);
+  m_time_slider->setScalePosition(QwtSlider::NoScale);
+  // To define background style for Qwt slider there are some setters to control display of groove and trough
+  //m_time_slider->setBackgroundStyle(QwtSlider::BgBoth) ;
+  // Ensure that both Groove and Trough are displayed as it was the case with Qwt 5.x
+  m_time_slider->setGroove(true);
+  m_time_slider->setTrough(true);
+
+  // Due to changes in Qwt desing it seems that the notion of range has been relaced by the notion of Scale defined in qwt_abstract_scale class
+  //  m_time_slider->setRange(gdata->leftTime(), gdata->rightTime(), 1.0/10000.0, 1000);
+  m_time_slider->setScale(l_min,l_max);
+
+  // the parameters defining how the slider behave inside the scale is now defined in class qwt_abstract_slider 
+  double l_range_wdith = ( l_min < l_max ? l_max - l_min : l_min - l_max);
+  unsigned int l_nb_steps = ((unsigned int)(l_range_wdith * 10000.0));
+  m_time_slider->setTotalSteps(l_nb_steps);
+  m_time_slider->setPageSteps(1000);
+
+  // Graphical parameters
+  // setThumbWidth and setThumbLength has been replaced by setHandleSize
+  m_time_slider->setHandleSize(QSize(60,20));
+
+  // Don't know how to deal with margins in Qwt 6.x
+
+#else
+#if QWT_VERSION >= 0x050000
+  m_time_slider = new QwtSlider(this, Qt::Horizontal, QwtSlider::NoScale, QwtSlider::BgBoth);
+#else
+  m_time_slider = new QwtSlider(this, Qt::Horizontal, QwtSlider::None, QwtSlider::BgBoth);
+#endif
     m_time_slider->setThumbWidth(20);
     m_time_slider->setThumbLength(60);
     m_time_slider->setMargins(2, 2);
-    m_time_slider->setRange(0.0,10000.0, 1.0/10000.0, 1000);
+    m_time_slider->setRange(l_min,l_max, 1.0/10000.0, 1000);
+#endif // QWT_VERSION >= 0x060000
 
     m_time_slider->setValue(500.0);
     m_time_slider->setTracking(true);

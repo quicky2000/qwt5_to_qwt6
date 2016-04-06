@@ -6,15 +6,16 @@ unix{
   macx{ #MacOSX
     # To be done
   }else{ #Linux
-    QWT_LIB_NAME= qwt-qt4
-    MY_QWT_LIB_PATH += 
-    MY_QWT_INCLUDE_PATH +=  /usr/include/qwt-qt4/
+    QWT_LIB_NAME= qwt
+    MY_QWT_PATH = /usr/local/qwt-6.1.2
+    MY_QWT_LIB_PATH += -L$$MY_QWT_PATH/lib
+    MY_QWT_INCLUDE_PATH += $$MY_QWT_PATH/include
   }
 }
 win32{ #Windows
   #Note just stick the *.dll files in the executables directory to run
 }
 
-TARGET = qwt5
+TARGET = qwt6
 
 include( $${PWD}/common.pri )
