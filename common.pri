@@ -22,11 +22,13 @@ INCLUDEPATH += . include
 # Input
 HEADERS += include/main_window.h \
            include/slider_widget.h \
-           include/wheel_widget.h
+           include/wheel_widget.h \
+           include/compass_widget.h
 SOURCES += src/main.cpp \
            src/main_window.cpp \
            src/slider_widget.cpp \
-           src/wheel_widget.cpp
+           src/wheel_widget.cpp \
+           src/compass_widget.cpp
 
 DEPENDPATH += . src include
 INCLUDEPATH += . include 

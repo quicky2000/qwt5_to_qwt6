@@ -14,24 +14,26 @@
       You should have received a copy of the GNU General Public License
       along with this program.  If not, see <http://www.gnu.org/licenses/>
 */
-#include "main_window.h"
-#include "slider_widget.h"
-#include "wheel_widget.h"
-#include "compass_widget.h"
+#ifndef COMPASS_WIDGET_H
+#define COMPASS_WIDGET_H
+
+#include <QFrame>
+
+class QwtCompass;
+class QLCDNumber;
 
 namespace qwt5_to_qwt6
 {
-  //----------------------------------------------------------------------------
-  main_window::main_window(void):
-    m_tab_widget(nullptr)
+  class compass_widget: public QFrame
   {
-    m_tab_widget = new QTabWidget(this);
-    m_tab_widget->addTab( new slider_widget(this) , "Slider" );
-    m_tab_widget->addTab( new wheel_widget(this), "Wheel" );
-    m_tab_widget->addTab( new compass_widget(this), "Compass" );
-
-    setCentralWidget(m_tab_widget);
-  }
+  Q_OBJECT
+  public:
+    compass_widget(QWidget * parent = nullptr);
+  private:
+    QwtCompass * m_compass;
+    QLCDNumber * m_current_seq_number;
+  };
 
 }
+#endif // COMPASS_WIDGET_H
 //EOF
